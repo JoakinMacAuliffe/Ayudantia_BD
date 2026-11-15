@@ -1,0 +1,49 @@
+name: solemne2
+
+services:
+  db:
+    image: postgres:16
+    container_name: solemne2-db
+    environment:
+      POSTGRES_DB: solemne2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: America/Santiago
+      PGTZ: America/Santiago
+    ports:
+      - "127.0.0.1:5433:5432"   # puerto 5433 en tu PC para no chocar con otro Postgres
+    volumes:
+      - ./scripts/00_reset_bd.sql:/docker-entrypoint-initdb.d/00_reset_bd.sql:ro
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d solemne2"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  pgadmin:
+    image: dpage/pgadmin4:8.14
+    container_name: solemne2-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ayudante@solemne.cl
+      PGADMIN_DEFAULT_PASSWORD: solemne
+      PGADMIN_CONFIG_SERVER_MODE: "False"                 # modo escritorio: sin login
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
+    ports:
+      - "127.0.0.1:5050:80"
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+      - ./pgadmin/pgpass:/pgadmin4/pgpass.src:ro
+      - ./scripts:/solemne              # los .sql quedan visibles en el explorador de archivos de pgAdmin
+      - pgadmin:/var/lib/pgadmin
+    # pgpass debe tener permisos 600 (desde Windows llega con 777), así que se copia al arrancar
+    entrypoint: >
+      /bin/sh -c "cp /pgadmin4/pgpass.src /var/lib/pgadmin/pgpass && chmod 600 /var/lib/pgadmin/pgpass && exec /entrypoint.sh"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  pgadmin:

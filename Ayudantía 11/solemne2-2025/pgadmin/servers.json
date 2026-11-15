@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Solemne 2 (2025)",
+      "Group": "Servers",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "solemne2",
+      "Username": "postgres",
+      "PassFile": "/var/lib/pgadmin/pgpass",
+      "SSLMode": "prefer"
+    }
+  }
+}
