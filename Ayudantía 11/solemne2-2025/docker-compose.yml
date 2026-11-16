@@ -14,6 +14,8 @@ services:
       - "127.0.0.1:5433:5432"   # puerto 5433 en tu PC para no chocar con otro Postgres
     volumes:
       - ./scripts/00_reset_bd.sql:/docker-entrypoint-initdb.d/00_reset_bd.sql:ro
+      - ./scripts/festival/01_crear_bd_festival.sql:/docker-entrypoint-initdb.d/01_crear_bd_festival.sql:ro
+      - ./scripts/festival:/festival:ro
       - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d solemne2"]

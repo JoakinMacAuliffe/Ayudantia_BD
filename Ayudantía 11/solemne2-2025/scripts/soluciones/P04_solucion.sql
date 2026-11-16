@@ -38,7 +38,7 @@ DROP TRIGGER IF EXISTS trg_desbloqueo ON usuario;
 CREATE TRIGGER trg_desbloqueo
 AFTER UPDATE OF usuest ON usuario          -- solo si se actualiza la columna usuest
 FOR EACH ROW
-WHEN (OLD.usuest = 'N' AND NEW.usuest = 'S')   -- solo la transición bloqueado -> activo
+WHEN (OLD.usuest = 'N' AND NEW.usuest = 'S'  )   -- solo la transición bloqueado -> activo
 EXECUTE FUNCTION limpiar_fallos();
 
 

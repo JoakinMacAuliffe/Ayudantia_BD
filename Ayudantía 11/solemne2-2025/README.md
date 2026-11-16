@@ -41,6 +41,21 @@ Las conexiones se generan relativas a la fecha actual, de modo que "hoy" siempre
 | P7 | 4 usuarios con E+L en un mismo sistema; Ulises tiene 2 perfiles **ambos L** (la trampa de la pauta) |
 | P9 | Sebastián tiene un perfil sin sistemas (sale 0); Zoe no tiene perfiles (no sale) |
 
+## BD `festival` (Consultas SQL: Festival de Cine)
+
+En el mismo servidor hay una segunda BD, **festival**, con el modelo `espectadores`, `directores`,
+`peliculas`, `generos` (FK reflexiva `subgenero_id`), `entradas` y `salas`.
+
+- pgAdmin: Servers → Solemne 2 (2025) → Databases → **festival** → Query Tool (ojo: no en `solemne2`).
+- Conexión directa: igual que arriba, pero con BD `festival`.
+- Resetear: abrir `/solemne/festival/00_reset_festival.sql` **conectado a festival** y ejecutarlo (F5).
+- Los resultados esperados de las 5 preguntas están comentados al final de ese script.
+
+Trampas en los datos: Camila y Diego dirigen 2 películas de terror/c. ficción (hace falta `DISTINCT` en P3).
+Hay subgéneros ("terror psicológico", "ciberpunk") que solo aparecen si se recorre `subgenero_id`.
+En P5 hay otra Valentina (Sepúlveda) y otro Rojas (Andrés), y 2 espectadores vieron las dos
+películas de Valentina Rojas.
+
 > La pauta original usa columnas que no existen en el modelo (`usuariocod`, `fechahora`,
 > `idconexion`, `estado`, `tipoperfil`, etc.). Las soluciones usan los nombres del enunciado y
 > cada una termina con una sección "COMPARACIÓN CON LA PAUTA".
