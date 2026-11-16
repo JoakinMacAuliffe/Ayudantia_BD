@@ -56,6 +56,26 @@ Hay subgéneros ("terror psicológico", "ciberpunk") que solo aparecen si se rec
 En P5 hay otra Valentina (Sepúlveda) y otro Rojas (Andrés), y 2 espectadores vieron las dos
 películas de Valentina Rojas.
 
+## BD `biblioteca` (Control 3: Ejercicio 1)
+
+Tercera BD en el mismo servidor, con el modelo `socios`, `autores`, `categorias`, `libros` y `prestamos`
+(solo lo necesario para el Ejercicio 1: procedimiento `registrar_prestamo` y trigger de devolución).
+
+- pgAdmin: Databases → **biblioteca** → Query Tool.
+- `/solemne/biblioteca/E1.sql`: enunciado, espacio para responder y pruebas con resultado esperado.
+- `/solemne/biblioteca/E1_solucion.sql`: solución de la pauta.
+- Resetear: `/solemne/biblioteca/00_reset_biblioteca.sql` **conectado a biblioteca** (también borra
+  el procedimiento y el trigger). Las fechas son relativas a hoy, así que las multas esperadas siempre cuadran.
+
+| Caso | Dato |
+|---|---|
+| Caso feliz `CALL registrar_prestamo(15, 40)` | Socio 15 tiene 2 vigentes (+1 devuelto que no cuenta) |
+| Límite de 3 | Socio 16 tiene 3 vigentes; el 15 llega a 3 tras el caso feliz |
+| Libro no existe / sin stock | Libro 41 no existe; libro 43 tiene 0 ejemplares |
+| Multas al devolver hoy | Préstamo 1: 0 · 2: 1500 · 3: 0 (justo 7 días) · 4: 2500 |
+| Devolución anterior al préstamo | Préstamo 5 con `CURRENT_DATE - 5` |
+| El trigger no debe dispararse | Préstamo 7 ya devuelto (multa 1000) |
+
 > La pauta original usa columnas que no existen en el modelo (`usuariocod`, `fechahora`,
 > `idconexion`, `estado`, `tipoperfil`, etc.). Las soluciones usan los nombres del enunciado y
 > cada una termina con una sección "COMPARACIÓN CON LA PAUTA".

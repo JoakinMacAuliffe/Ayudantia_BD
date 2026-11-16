@@ -16,6 +16,8 @@ services:
       - ./scripts/00_reset_bd.sql:/docker-entrypoint-initdb.d/00_reset_bd.sql:ro
       - ./scripts/festival/01_crear_bd_festival.sql:/docker-entrypoint-initdb.d/01_crear_bd_festival.sql:ro
       - ./scripts/festival:/festival:ro
+      - ./scripts/biblioteca/01_crear_bd_biblioteca.sql:/docker-entrypoint-initdb.d/02_crear_bd_biblioteca.sql:ro
+      - ./scripts/biblioteca:/biblioteca:ro
       - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d solemne2"]
